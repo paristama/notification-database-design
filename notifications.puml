@@ -1,0 +1,64 @@
+@startuml Notifications
+
+/' Styles '/
+scale 1200 width
+
+skinparam BackgroundColor transparent
+
+skinparam class {
+    BackgroundColor #334155
+    HeaderBackgroundColor #1e293b
+    FontStyle plain
+    FontName Tahoma
+    FontColor #cbd5e1
+}
+
+skinparam arrow {
+    FontColor #c084fc
+    Color #4338ca
+}
+
+
+
+entity Users {
+    * id VARCHAR(100) <<PK>>
+    --
+    * name VARCHAR(100)
+}
+
+entity Notifications {
+    * id INT AUTO INCREMENT <<PK>>
+    --
+    * title VARCHAR(255)
+    * detail TEXT
+    * created_at TIMESTAMP
+    --
+    user_id VARCHAR(100) <<FK>>
+    category_id VARCHAR(100) <<FK>>
+}
+
+entity Categories {
+    * id VARCHAR(100) <<PK>>
+    --
+    * name VARCHAR(100)
+}
+
+entity NotificationReads {
+    * id INT AUT INCREMENT <<PK>>
+    --
+    * is_read BOOELAN
+    --
+    * notification_id INT <<FK>>
+    * user_id VARCHAR(100) <<FK>>
+}
+
+
+
+/' Relationship '/
+Users ||--o{ Notifications : Has
+Categories ||--o{ Notifications : Contains
+Notifications ||--o{ NotificationReads : Contains
+Users ||--o{ NotificationReads : Has
+
+
+@enduml
